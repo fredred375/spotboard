@@ -233,6 +233,7 @@ class TeamProblemStatus
     getContributingPenalty : ->
         return @cache.penalty ? @cache.penalty = do =>
             if this.isAccepted()
+                console.log(this.getSolvedTime())
                 return (this.getFailedAttempts()) * 20 + this.getSolvedTime()
             else return 0
 
@@ -248,6 +249,7 @@ class TeamProblemStatus
     getSolvedTime : ->
         return @cache.solvedTime ? @cache.solvedTime = do =>
             run = this.getNetLastRun()
+            # console.log(run.getTime())
             return if run? and run.isJudgedYes() then run.getTime() else null
 
     getSolvedRun : ->
@@ -335,6 +337,7 @@ class Run
     # context : contest
     # if context == null, this Run is not yet reflected
     constructor : (@contest, @id, @problem, @team, @time, @result) ->
+        # @time = Math.floor(((new Date(time) - new Date("2021/4/25 11:00:00"))/1000)/60)
         assert @contest == @problem.getContest() if @contest?
         assert @contest == @team.getContest() if @contest?
 
@@ -351,11 +354,11 @@ class Run
     getResult : -> @result
 
     isJudgedYes : ->
-        @result.substr(0, 3) is "Yes"
+        @result is 1
     isAccepted : ->
         this.isJudgedYes()
     isPending : ->
-        @result is "" or @result.substr(0, 7) is "Pending"
+        @result is 0 or @result is 12 or @result is ""
     isFailed : ->
         @result isnt "" and not this.isJudgedYes()
 
@@ -546,18 +549,18 @@ class RunFeeder
     isNoMoreUpdate: -> @noMoreUpdate
 
     parseRunData : (data, filter) ->
-        assertNotNull(data['runs'])
+        assertNotNull(data)
         runs = []
-        for r in data['runs']
-            rid = parseInt(r.id)
-            pid = parseInt(r.problem)
+        for r in data
+            rid = parseInt(r.submission_id)
+            pid = parseInt(r.problem_id)
             if isNaN(pid) then pid = parseInt(r.problem?.id)
-            tid = parseInt(r.team)
+            tid = parseInt(r.user_id)
             if isNaN(tid) then tid = parseInt(r.team?.id)
 
             run = new Run(@contest, rid, \
                 @contest.getProblem(pid), @contest.getTeam(tid), \
-                parseInt(r.submissionTime), r.result)
+                r.submission_date, r.submission_status)
             continue if run == null
             continue if filter? and not filter(run)   # skip filtered runs
             runs.push(run)
@@ -567,6 +570,10 @@ class RunFeeder
             noMoreUpdate = data['time'].noMoreUpdate ? true : false
             contestTime = parseInt( data['time'].contestTime )
             timestamp = parseInt( data['time'].timestamp )
+        else
+            noMoreUpdate = false
+            contestTime = 18000
+            timestamp = 0
         if timestamp >= 0
             lastTimeStamp = timestamp
 

@@ -2,7 +2,8 @@
  * Contest Configuration
  */
 
-feed_server_path = './sample/';
+feed_server_path = 'https://agile-shelf-36988.herokuapp.com/http://pdogs.ntu.im:1337/api/';
+// feed_server_path = './sample/'
 
 config =
 {
@@ -43,7 +44,7 @@ config =
     /**
      * Specify whether to show team group (affiliation) just below team name.
      */
-    show_team_group    : true,
+    show_team_group    : false,
 
     /**
      * Specify whether to highlight first solve runs.
@@ -73,7 +74,7 @@ config =
      *
      * This option is ignored (always set true) in the award mode.
      */
-    animation          : false,
+    animation          : true,
 
     /** The delay time (in milliseconds) to between two consecutive run feeding. */
     auto_play_delay    : 100,

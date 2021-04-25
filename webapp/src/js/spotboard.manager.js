@@ -37,7 +37,8 @@ function(Spotboard, $)  {
     Spotboard.Manager.loadContest = function() {
         var $df = new $.Deferred();
 
-        var path = joinPath(Spotboard.config['apiBase'], '/contest.json');
+        // var path = joinPath(Spotboard.config['apiBase'], '/contest.json');
+        var path = './sample/contest.json'
 
         var onError = function(err) {
             if(console) console.log('Unable to fetch ' + path + ' : ' + err);
@@ -77,11 +78,16 @@ function(Spotboard, $)  {
     Spotboard.Manager.loadRuns = function() {
         var $df = new $.Deferred();
 
-        var path = joinPath(Spotboard.config['apiBase'],  '/runs.json');
+        var path = joinPath(Spotboard.config['apiBase'],  '/submissions');
+        // var path = './sample/runs.json';
         $.ajax({
             url : path,
             dataType : 'json',
             success : function(e) {
+                for(var i = 0; i < e.length; i++)
+                {
+                    e[i].submission_date = Math.floor(((new Date(e[i].submission_date) - new Date("2021/4/25 11:00:00"))/1000)/60)
+                }
                 Spotboard.$runs = e;
                 $df.resolve('success');
             },
@@ -278,12 +284,17 @@ function(Spotboard, $)  {
                 contest = Spotboard.contest;
             var is_autodiff = Spotboard.config['auto_rundiff'];
             var path = joinPath(Spotboard.config['apiBase'],
-                         is_autodiff ?  '/runs.json' : '/changed_runs.json'
+                         is_autodiff ?  '/submissions' : '/changed_runs.json'
                         );
+            // var path = is_autodiff ? './sample/runs.json' : './sample/changed_runs.json';
             $.ajax({
                 url : path + '?from=' + runfeeder.getLastTimeStamp(),
                 dataType : 'json',
                 success : function(data) {
+                    for(var i = 0; i < data.length; i++)
+                    {
+                        data[i].submission_date = Math.floor(((new Date(data[i].submission_date) - new Date("2021/4/25 11:00:00"))/1000)/60)
+                    }
                     var fn = runfeeder.fetchRunsFromJson;
                     if(is_autodiff) fn = runfeeder.diffAndFeedRuns;
 
