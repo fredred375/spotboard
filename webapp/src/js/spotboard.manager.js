@@ -1,4 +1,4 @@
-var start_time = new Date("2021/05/08 11:00:00")
+var start_time = new Date("2021/05/07 21:00:00")
 define([
     'spotboard',
 
