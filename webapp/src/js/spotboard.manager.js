@@ -1,4 +1,3 @@
-var start_time = new Date("2021/05/08 11:00:00")
 define([
     'spotboard',
 
@@ -87,7 +86,7 @@ function(Spotboard, $)  {
             success : function(e) {
                 for(var i = 0; i < e.length; i++)
                 {
-                    e[i].submission_date = Math.floor(((new Date(e[i].submission_date) - start_time)/1000)/60)
+                    e[i].submission_date = Math.floor(((new Date(e[i].submission_date) - new Date("2021/4/25 11:00:00"))/1000)/60)
                 }
                 Spotboard.$runs = e;
                 $df.resolve('success');
@@ -294,7 +293,7 @@ function(Spotboard, $)  {
                 success : function(data) {
                     for(var i = 0; i < data.length; i++)
                     {
-                        data[i].submission_date = Math.floor(((new Date(data[i].submission_date) - start_time)/1000)/60)
+                        data[i].submission_date = Math.floor(((new Date(data[i].submission_date) - new Date("2021/4/25 11:00:00"))/1000)/60)
                     }
                     var fn = runfeeder.fetchRunsFromJson;
                     if(is_autodiff) fn = runfeeder.diffAndFeedRuns;

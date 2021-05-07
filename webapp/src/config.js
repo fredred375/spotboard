@@ -44,7 +44,7 @@ config =
     /**
      * Specify whether to show team group (affiliation) just below team name.
      */
-    show_team_group    : true,
+    show_team_group    : false,
 
     /**
      * Specify whether to highlight first solve runs.
