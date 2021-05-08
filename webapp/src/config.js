@@ -2,8 +2,8 @@
  * Contest Configuration
  */
 
-feed_server_path = 'https://agile-shelf-36988.herokuapp.com/http://pdogs.ntu.im:1337/api/';
-// feed_server_path = './sample/'
+// feed_server_path = 'https://agile-shelf-36988.herokuapp.com/http://pdogs.ntu.im:1337/api/';
+feed_server_path = './sample/'
 
 config =
 {

@@ -1,4 +1,4 @@
-var start_time = new Date("2021/05/07 21:00:00")
+var start_time = new Date("2021/05/08 11:00:00")
 define([
     'spotboard',
 
@@ -79,12 +79,13 @@ function(Spotboard, $)  {
     Spotboard.Manager.loadRuns = function() {
         var $df = new $.Deferred();
 
-        var path = joinPath(Spotboard.config['apiBase'],  '/submissions');
-        // var path = './sample/runs.json';
+        // var path = joinPath(Spotboard.config['apiBase'],  '/submissions');
+        var path = './sample/runs.json';
         $.ajax({
             url : path,
             dataType : 'json',
             success : function(e) {
+                e = e.runs
                 for(var i = 0; i < e.length; i++)
                 {
                     e[i].submission_date = Math.floor(((new Date(e[i].submission_date) - start_time)/1000)/60)
@@ -284,10 +285,10 @@ function(Spotboard, $)  {
             var runfeeder = Spotboard.runfeeder,
                 contest = Spotboard.contest;
             var is_autodiff = Spotboard.config['auto_rundiff'];
-            var path = joinPath(Spotboard.config['apiBase'],
-                         is_autodiff ?  '/submissions' : '/changed_runs.json'
-                        );
-            // var path = is_autodiff ? './sample/runs.json' : './sample/changed_runs.json';
+            // var path = joinPath(Spotboard.config['apiBase'],
+            //              is_autodiff ?  '/submissions' : '/changed_runs.json'
+            //             );
+            var path = is_autodiff ? './sample/runs.json' : './sample/changed_runs.json';
             $.ajax({
                 url : path + '?from=' + runfeeder.getLastTimeStamp(),
                 dataType : 'json',
