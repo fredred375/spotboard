@@ -82,11 +82,13 @@ Authors
 
 - Jongwook Choi ([@wookayin][gh-wookayin])
 - Wonha Ryu ([@beingryu][gh-beingryu])
+- Modification by: Frederick Chu ([@fredred375][gh-fredred375]) 
 
 If you want to contribute to the project, please raise an issue or a pull request.
 
 [gh-wookayin]: https://github.com/wookayin
 [gh-beingryu]: https://github.com/beingryu
+[gh-fredred375]: https://github.com/fredred375
 
 
 License
